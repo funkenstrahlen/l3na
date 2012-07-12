@@ -1,0 +1,36 @@
+
+telnet api.twitter.com 80
+
+# get the last tweet of user i42n
+GET /1/statuses/user_timeline.xml?screen_name=i42n&count=1 HTTP/1.1
+HOST: api.twitter.com
+
+# get last tweet that contains the arduino hashtag
+GET /search.json?q=%23arduino&rpp=1&include_entities=false&result_type=recent HTTP/1.1
+HOST: search.twitter.com
+
+
+[stefan@laptop-st ~]$ telnet api.twitter.com 80
+Trying 199.59.148.20...
+Connected to api.twitter.com.
+Escape character is '^]'.
+GET /search.json?q=%23arduino&rpp=1&include_entities=false&result_type=recent HTTP/1.1
+HOST: search.twitter.com
+
+HTTP/1.1 200 OK
+Cache-Control: max-age=15, must-revalidate, max-age=300
+Expires: Wed, 11 Jul 2012 14:34:44 GMT
+Content-Type: application/json;charset=utf-8
+X-Transaction: 57423ea1f49374b8
+X-Frame-Options: SAMEORIGIN
+Content-Length: 1127
+Vary: Accept-Encoding
+Date: Wed, 11 Jul 2012 14:29:44 GMT
+X-Varnish: 2376742117
+Age: 0
+Via: 1.1 varnish
+Server: tfe
+Connection: close
+
+{"completed_in":0.034,"max_id":222953125647093760,"max_id_str":"222953125647093760","next_page":"?page=2&max_id=222953125647093760&q=%23arduino&rpp=1&result_type=recent","page":1,"query":"%23arduino","refresh_url":"?since_id=222953125647093760&q=%23arduino&result_type=recent","results":[{"created_at":"Wed, 11 Jul 2012 07:19:02 +0000","from_user":"dayn","from_user_id":1205911,"from_user_id_str":"1205911","from_user_name":"Dayn Wilberding","geo":null,"id":222953125647093760,"id_str":"222953125647093760","iso_language_code":"en","metadata":{"result_type":"recent"},"profile_image_url":"http:\/\/a0.twimg.com\/profile_images\/1496052060\/image_normal.jpg","profile_image_url_https":"https:\/\/si0.twimg.com\/profile_images\/1496052060\/image_normal.jpg","source":"&lt;a href=&quot;http:\/\/instagr.am&quot; rel=&quot;nofollow&quot;&gt;instagram&lt;\/a&gt;","text":"Wave shield 95% assembled, piggyback on the #arduino uno. Audio jack is ridin dirty. I need a decent pair of http:\/\/t.co\/OPS1NPWz","to_user":null,"to_user_id":0,"to_user_id_str":"0","to_user_name":null}],"results_per_page":1,"since_id":0,"since_id_str":"0"}
+Connection closed by foreign host.

@@ -22,7 +22,20 @@ unsigned long lastAttemptTime = 0; // last time you connected to the server, in 
 String currentLine = ""; // string to hold the text from server
 boolean textFound = false; // trigger to check whether the "text" was found in json yet
 
+int ledGreen = 5; // the pin that the LED is attached to
+int ledYellow = 6; // the pin that the LED is attached to
+int ledRed = 9; // the pin that the LED is attached to
+
 void setup() {
+
+  pinMode(ledGreen, OUTPUT);
+  pinMode(ledYellow, OUTPUT);
+  pinMode(ledRed, OUTPUT);
+
+  analogWrite(ledGreen, 0);
+  analogWrite(ledRed, 0); 
+  analogWrite(ledYellow, 0); 
+
   // reserve space for the strings
   currentLine.reserve(200);
 
@@ -63,11 +76,15 @@ void loop() {
       // check if currently cached data contains the "text" tag AND if we have already received the whole tweet message
       if(currentLine.endsWith("\",") && textFound) {
         // we received the whole tweet \o/
+        
+        // cut off the "text": at the beginning and the ", at the end
+        currentLine = currentLine.substring(8, currentLine.length() - 2);      
+                
         Serial.println("");
+        Serial.println("##################");  
+        Serial.println(currentLine);
         Serial.println("##################");
-        // cut off the "text": at the beginning and the ", at the end. then print the tweet to serial
-        Serial.println(currentLine.substring(8, currentLine.length() - 2));
-        Serial.println("##################");
+        setColorFromTweet(currentLine);        
         client.stop(); // we received what we were interested in, so close the connection
         currentLine = ""; // clear data
         textFound = false; // reset triggers
@@ -99,7 +116,7 @@ void connectToServer() {
     Serial.println("making HTTP request...");
     // make HTTP GET request to twitter:
     // this is the important request to receive the correct data in json format from twitter api
-    client.println("GET /search.json?q=%23arduino&rpp=1&include_entities=false&result_type=recent HTTP/1.1");
+    client.println("GET /search.json?q=%23color&rpp=1&include_entities=false&result_type=recent HTTP/1.1");
     client.println("HOST: search.twitter.com");
     client.println();
   }
@@ -107,3 +124,30 @@ void connectToServer() {
   lastAttemptTime = millis();
 }   
 
+void setColorFromTweet(String currentLine) {
+
+  Serial.println("Trying to extract colors from tweet...");
+  
+  currentLine.toLowerCase();
+
+  if(currentLine.indexOf("green") > -1) {
+    Serial.println("Found green.");
+    analogWrite(ledGreen, 255); 
+  } else {
+    analogWrite(ledGreen, 0); 
+  }
+
+  if(currentLine.indexOf("red") > -1) {
+    Serial.println("Found red.");
+    analogWrite(ledRed, 255); 
+  } else {
+    analogWrite(ledRed, 0); 
+  }
+
+  if(currentLine.indexOf("yellow") > -1) {
+    Serial.println("Found yellow.");
+    analogWrite(ledYellow, 255); 
+  }  else {
+    analogWrite(ledYellow, 0); 
+  } 
+}

@@ -72,6 +72,8 @@ void loop() {
         Serial.println("Will sleep now...");
       } 
       
+      // if current cached data line does not contain "text" and a "," ist read, delete the cached data
+      // this is when a json data field was read, that does not equal the "text" data field
       if(inChar == ',' && !textFound) {
         currentLine = "";
       }

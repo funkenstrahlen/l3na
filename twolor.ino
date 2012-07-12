@@ -51,7 +51,7 @@ void loop() {
       
       // read incoming bytes:
       char inChar = client.read();
-      Serial.print(inChar);
+      //Serial.print(inChar);
       currentLine += inChar;
       
       // check if the currently cached data from server contains the json element "text"

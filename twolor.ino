@@ -64,12 +64,14 @@ void loop() {
       if(currentLine.endsWith("\",") && textFound) {
         // we received the whole tweet \o/
         Serial.println("");
+        Serial.println("##################");
         // cut off the "text": at the beginning and the ", at the end. then print the tweet to serial
         Serial.println(currentLine.substring(8, currentLine.length() - 2));
+        Serial.println("##################");
         client.stop(); // we received what we were interested in, so close the connection
         currentLine = ""; // clear data
         textFound = false; // reset triggers
-        Serial.println("Will sleep now...");
+        Serial.print("Will sleep now for "); Serial.print(requestInterval / 1000); Serial.println(" seconds.");
       } 
       
       // if current cached data line does not contain "text" and a "," ist read, delete the cached data

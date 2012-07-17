@@ -13,7 +13,7 @@ IPAddress ip(192,168,178,120); // that is actually fallback if no dhcp available
 // initialize the library instance:
 EthernetClient client;
 
-const unsigned long requestInterval = 5000; // delay between requests
+const unsigned long requestInterval = 60000; // delay between requests
 char serverName[] = "api.twitter.com"; // twitter api URL
 
 boolean requested; // whether you've made a request since connecting

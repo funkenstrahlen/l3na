@@ -22,16 +22,19 @@ unsigned long lastAttemptTime = 0; // last time you connected to the server, in 
 String currentLine = ""; // string to hold the text from server
 boolean textFound = false; // trigger to check whether the "text" was found in json yet
 
+int ledBlue = 3; // the pin that the LED is attached to
 int ledGreen = 5; // the pin that the LED is attached to
 int ledYellow = 6; // the pin that the LED is attached to
 int ledRed = 9; // the pin that the LED is attached to
 
 void setup() {
 
+  pinMode(ledBlue, OUTPUT);  
   pinMode(ledGreen, OUTPUT);
   pinMode(ledYellow, OUTPUT);
   pinMode(ledRed, OUTPUT);
 
+  analogWrite(ledBlue, 0);
   analogWrite(ledGreen, 0);
   analogWrite(ledRed, 0); 
   analogWrite(ledYellow, 0); 
@@ -150,4 +153,11 @@ void setColorFromTweet(String currentLine) {
   }  else {
     analogWrite(ledYellow, 0); 
   } 
+  
+  if(currentLine.indexOf("blue") > -1) {
+    Serial.println("Found blue.");
+    analogWrite(ledBlue, 255); 
+  }  else {
+    analogWrite(ledBlue, 0); 
+  }   
 }
